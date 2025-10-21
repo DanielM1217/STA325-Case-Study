@@ -11,8 +11,35 @@ library(tidyverse)
 library(tidymodels)
 library(moments)
 
+training_raw <- read_csv("data-train.csv") #read raw csv
+
 
 
 ```
 
+
+```{r}
+#| label: calculating-moments-formatting-data
+
+only_raw <- training_raw |>
+  mutate(R_moment_0 = 0) |>
+  select(R_moment_0, R_moment_1,
+         R_moment_2, R_moment_3,
+         R_moment_4)
+
+only_raw_t <- as.data.frame(t(only_raw))
+
+training <- as.data.frame(t(raw2central(only_raw_t))) 
+training <- training |>
+  add_column(training_raw$St,
+             training_raw$Re,
+             training_raw$Fr,
+             .before = 1)
+```
+
+```{r}
+#| label: EDA-for-models
+
+
+```
 
