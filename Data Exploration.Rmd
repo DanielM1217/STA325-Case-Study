@@ -31,15 +31,27 @@ only_raw_t <- as.data.frame(t(only_raw))
 
 training <- as.data.frame(t(raw2central(only_raw_t))) 
 training <- training |>
-  add_column(training_raw$St,
-             training_raw$Re,
-             training_raw$Fr,
+  add_column(St = training_raw$St,
+             Re = training_raw$Re,
+             Fr = training_raw$Fr,
              .before = 1)
 ```
 
 ```{r}
-#| label: EDA-for-models
+#| label: EDA-for-models-means
 
+ggplot(training, aes(x = St)) +
+  geom_histogram(bins = 10) +
+  labs(title = "Histogram of St", x = "Value")
 
+ggplot(training, aes(x = V2)) +
+  geom_histogram(bins = 15) +
+  labs(title = "Histogram of Means", x = "Value")
+
+ggplot(training, aes(x = St, y = V2, color = factor(Re), shape = factor(Fr))) +
+  geom_point()
+  
+
+training |> count(Re, Fr)
 ```
 
