@@ -50,8 +50,25 @@ ggplot(training, aes(x = V2)) +
 
 ggplot(training, aes(x = St, y = V2, color = factor(Re), shape = factor(Fr))) +
   geom_point()
-  
 
 training |> count(Re, Fr)
+
+training_transformations <- training |>
+  mutate(logSt = log(St))
+
+training_transformations <- training_transformations |>
+  mutate(log_mean = log(V2))
+
+ggplot(training_transformations, aes(x = logSt)) +
+  geom_histogram(binwidth = 0.4) +
+  labs(title = "Dot Plot of Log St", x = "Value")
+
+skewness(training$St)
+skewness(training_transformations$logSt)
+skewness(training$V2)
+skewness(training_transformations$log_mean)
+
+ggplot(training_transformations, aes(x = logSt, y = log_mean, color = factor(Re), shape = factor(Fr))) +
+  geom_point()
 ```
 
